@@ -13,8 +13,8 @@ Built with Windows Presentation Foundation (WPF) and PowerShell, it provides a f
 - **Dependency Handling**: Automatically detects and activates PIM Groups required for specific role assignments.
 - **Active Assignment Tracking**: View currently active roles, their expiration times, and deactivate them when finished.
 - **Secure Authentication**:
-  - Uses OAuth2 Device Code/Authorization Code flow.
-  - Securely caches Refresh Tokens using **Windows PasswordVault** (Credential Manager) where available, falling back to DPAPI encrypted files in `%LOCALAPPDATA%`.
+  - Uses OAuth2 Authorization Code flow with **PKCE** (Proof Key for Code Exchange) for enhanced security.
+  - Securely caches Refresh Tokens using **Windows DPAPI** (Data Protection API) via `System.Security.Cryptography.ProtectedData`.
 - **Smart Policies**: Fetches role-specific expiration policies to automatically suggest the maximum allowed duration.
 
 ## Prerequisites
@@ -78,8 +78,7 @@ Application settings and cached tokens are stored locally on your machine:
 
 - **Settings**: `%LOCALAPPDATA%\PIMToolbox\settings.json`
 - **Token Cache**:
-  - **Windows Credential Manager**: Stored under the resource `PIMToolbox`.
-  - **Fallback**: Encrypted XML files in `%LOCALAPPDATA%\PIMToolbox\`.
+  - **Encrypted Tokens**: `%LOCALAPPDATA%\PIMToolbox\Tokens\*.dat` (Encrypted with current user credentials via DPAPI).
 
 ## Permissions
 
@@ -93,7 +92,9 @@ The application requests the following Microsoft Graph scopes to function:
 ## Troubleshooting
 
 - **Script requires .NET assembly**: Ensure you are running on Windows. Linux/macOS are not supported due to the WPF GUI dependencies.
-- **Authentication Loop**: If you get stuck in a loop, try clearing the cached credentials in Windows Credential Manager (look for `PIMToolbox`) or delete the `%LOCALAPPDATA%\PIMToolbox` folder.
+
+* **Authentication Loop**: If you get stuck in a loop, try deleting the `%LOCALAPPDATA%\PIMToolbox\Tokens` folder.
+
 - **State Mismatch Error**: This occurs if the authentication flow is interrupted. Restart the application and try again.
 
 ## License

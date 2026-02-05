@@ -1,11 +1,26 @@
 # PIM Toolbox
 
+![Platform](https://img.shields.io/badge/platform-Windows-0078D6)
+![Language](https://img.shields.io/badge/language-PowerShell-5391FE)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 **PIM Toolbox** is a modern, PowerShell-based GUI application designed to streamline the management and activation of Entra ID Privileged Identity Management (PIM) roles and groups.
 
 Built with Windows Presentation Foundation (WPF) and PowerShell, it provides a fast, dark-themed interface to manage your privileged access across multiple tenants without needing to navigate the Azure Portal.
 
 <img width="1920" height="1032" alt="grafik" src="https://github.com/user-attachments/assets/c0fd418e-41bc-49b1-a167-71afb03feb32" />
 
+
+## Table of Contents
+
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration & Data](#configuration--data)
+- [Permissions](#permissions)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
 
 ## Features
 
@@ -23,7 +38,7 @@ Built with Windows Presentation Foundation (WPF) and PowerShell, it provides a f
 ## Prerequisites
 
 - **Operating System**: Windows 10 or Windows 11 (Required for WPF support).
-- **PowerShell**: Windows PowerShell 5.1 or PowerShell 7+ (Core).
+- **PowerShell**: PowerShell 7+ (Core).
 - **Network**: Internet access to `login.microsoftonline.com` and `graph.microsoft.com`.
 
 ## Installation
@@ -47,12 +62,14 @@ Built with Windows Presentation Foundation (WPF) and PowerShell, it provides a f
 
 On the first launch, the application will load with default settings.
 
-1.  Click the **Settings** button in the bottom left.
-2.  Under **Tenants**, add your organization's details:
-    - **Name**: A friendly name (e.g., "Contoso").
-    - **Tenant ID**: The GUID of your Azure AD Tenant.
-3.  (Optional) Set a **Global Justification** string (e.g., "Daily Operations") to pre-fill activation requests.
-4.  Click **Close** to save.
+1.  Launch the application once to generate the default configuration file.
+2.  Navigate to `%LOCALAPPDATA%\PIMToolbox\` and open `settings.json` in a text editor.
+3.  Add your organization's details to the `Tenants` list:
+    ```json
+    { "Name": "Contoso", "Id": "your-tenant-guid" }
+    ```
+4.  Restart the application.
+5.  (Optional) Use the in-app **Settings** button to configure **Global Justification** and **Working Hours**.
 
 ### 2. Activating Roles
 
@@ -96,7 +113,7 @@ The application requests the following Microsoft Graph scopes to function:
 
 - **Script requires .NET assembly**: Ensure you are running on Windows. Linux/macOS are not supported due to the WPF GUI dependencies.
 
-* **Authentication Loop**: If you get stuck in a loop, try deleting the `%LOCALAPPDATA%\PIMToolbox\Tokens` folder.
+- **Authentication Loop**: If you get stuck in a loop, try deleting the `%LOCALAPPDATA%\PIMToolbox\Tokens` folder.
 
 - **State Mismatch Error**: This occurs if the authentication flow is interrupted. Restart the application and try again.
 
@@ -107,4 +124,3 @@ This project is licensed under the MIT License.
 ---
 
 _Disclaimer: This tool is not an official Microsoft product. Use it at your own risk. Always ensure you comply with your organization's security policies regarding third-party tools and token caching._
-

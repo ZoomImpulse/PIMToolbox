@@ -1,0 +1,10 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^pwsh -NoProfile -Command \"try \\{ \\\\\\$null = \\[System\\.Management\\.Automation\\.Language\\.Parser\\]::ParseFile\\('c:\\\\GIT\\\\PIMToolbox\\\\PIMToolbox\\.ps1', \\[ref\\]\\\\\\$null, \\[ref\\]\\\\\\$errs\\); if \\(\\\\\\$errs\\.Count -gt 0\\) \\{ \\\\\\$errs \\| ForEach-Object \\{ Write-Host \\\\\"ERROR: \\\\\\$_\\\\\" \\} \\} else \\{ Write-Host 'Parse OK - no syntax errors' \\} \\} catch \\{ Write-Host \\\\\"Exception: \\\\\\$_\\\\\" \\}\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "Add-Type": true,
+        "Out-Null": true
+    }
+}

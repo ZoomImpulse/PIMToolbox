@@ -8,8 +8,6 @@
 
 Built with Windows Presentation Foundation (WPF) and PowerShell, it provides a fast, dark-themed interface to manage your privileged access across multiple tenants without needing to navigate the Azure Portal.
 
-<img width="1920" height="1032" alt="grafik" src="https://github.com/user-attachments/assets/c0fd418e-41bc-49b1-a167-71afb03feb32" />
-
 
 ## Table of Contents
 
@@ -124,3 +122,4 @@ This project is licensed under the MIT License.
 ---
 
 _Disclaimer: This tool is not an official Microsoft product. Use it at your own risk. Always ensure you comply with your organization's security policies regarding third-party tools and token caching._
+

@@ -5,6 +5,7 @@
             "matchCommandLine": true
         },
         "Add-Type": true,
-        "Out-Null": true
+        "Out-Null": true,
+        "ForEach-Object": true
     }
 }

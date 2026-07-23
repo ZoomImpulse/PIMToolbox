@@ -19,6 +19,7 @@ Current script version: **2.1.0**
 - [Usage](#usage)
 - [Configuration & Data](#configuration--data)
 - [Permissions](#permissions)
+- [Architecture Reference](#architecture-reference)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
 
@@ -128,6 +129,11 @@ The application requests the following Microsoft Graph scopes to function:
 - `RoleManagement.ReadWrite.Directory` (To read and activate directory roles)
 - `PrivilegedAccess.ReadWrite.AzureADGroup` (To read and activate PIM groups)
 - `offline_access` (To maintain sessions via refresh tokens)
+
+## Architecture Reference
+
+- Entra ID PIM architecture reference for this project:
+    - `docs/entra-id-pim-architektur-referenz.md`
 
 ## Troubleshooting
 

@@ -53,7 +53,7 @@ Current script version: **2.1.0**
 
 1.  Clone this repository or download the script file.
     ```bash
-    git clone https://github.com/yourusername/PIMToolbox.git
+    git clone https://github.com/ZoomImpulse/PIMToolbox
     ```
 2.  Navigate to the directory.
     ```powershell

@@ -2,3 +2,8 @@
 .claude
 .vscode
 skills-lock.json
+**/bin/
+**/obj/
+**/artifacts/
+.vs/
+*.user

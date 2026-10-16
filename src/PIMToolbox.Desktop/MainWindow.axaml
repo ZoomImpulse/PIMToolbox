@@ -1,0 +1,298 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svg="clr-namespace:Avalonia.Svg.Skia;assembly=Avalonia.Svg.Skia"
+        x:Class="PIMToolbox.Desktop.MainWindow"
+        x:CompileBindings="False"
+        Title="PIM Toolbox"
+        Width="1320"
+        Height="840"
+        MinWidth="980"
+        MinHeight="640"
+        Background="#0B1020">
+  <Window.Styles>
+    <Style Selector="TextBlock">
+      <Setter Property="Foreground" Value="#EDF1FA" />
+    </Style>
+    <Style Selector="Button">
+      <Setter Property="Background" Value="#202844" />
+      <Setter Property="Foreground" Value="#EDF1FA" />
+      <Setter Property="BorderBrush" Value="#343E5C" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="12,8" />
+      <Setter Property="Cursor" Value="Hand" />
+    </Style>
+    <Style Selector="Button:pointerover">
+      <Setter Property="Background" Value="#2A3655" />
+    </Style>
+    <Style Selector="TextBox">
+      <Setter Property="Background" Value="#141B2D" />
+      <Setter Property="Foreground" Value="#EDF1FA" />
+      <Setter Property="BorderBrush" Value="#343E5C" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="10,8" />
+    </Style>
+    <Style Selector="ComboBox">
+      <Setter Property="Background" Value="#141B2D" />
+      <Setter Property="Foreground" Value="#EDF1FA" />
+      <Setter Property="BorderBrush" Value="#343E5C" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="8,5" />
+    </Style>
+    <Style Selector="ListBox">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="ListBoxItem">
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Margin" Value="0,0,0,7" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="CornerRadius" Value="10" />
+    </Style>
+    <Style Selector="ListBoxItem:pointerover">
+      <Setter Property="Background" Value="#19233B" />
+    </Style>
+    <Style Selector="ListBoxItem:selected">
+      <Setter Property="Background" Value="#1C2B4A" />
+    </Style>
+  </Window.Styles>
+
+  <Grid RowDefinitions="Auto,*,Auto">
+    <Border Grid.Row="0" Background="#11182B" BorderBrush="#252E48" BorderThickness="0,0,0,1" Padding="24,17">
+      <Grid ColumnDefinitions="*,Auto">
+        <StackPanel Spacing="3">
+          <StackPanel Orientation="Horizontal" Spacing="10">
+            <Image Source="{svg:SvgImage /Assets/PIMToolbox.svg}" Width="40" Height="40"
+                   Stretch="Uniform" VerticalAlignment="Center" />
+            <TextBlock Text="PIM Toolbox" FontSize="23" FontWeight="SemiBold" VerticalAlignment="Center" />
+          </StackPanel>
+          <TextBlock Text="PRIVILEGED ACCESS  /  TENANT COMMAND CENTER" FontSize="10"
+                     Foreground="#8291A6" Margin="40,0,0,0" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+          <Button Content="Sign in / verify" Click="OnSignInClick" />
+          <Button Content="↻  Refresh all" Click="OnRefreshClick" Background="#0093E5"
+                  Foreground="#071426" BorderBrush="#0093E5" FontWeight="SemiBold" />
+          <Button Content="Cancel" Click="OnCancelClick" />
+          <Button Content="⚙" Click="OnOpenSettingsClick" ToolTip.Tip="Open settings" />
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="1" ColumnDefinitions="218,*,320">
+      <Border Grid.Column="0" Background="#0F1627" BorderBrush="#252E48" BorderThickness="0,0,1,0"
+              Padding="14,18">
+        <Grid RowDefinitions="Auto,Auto,*,Auto">
+          <TextBlock Text="WORKSPACES" FontSize="10" FontWeight="SemiBold" Foreground="#8291A6"
+                     Margin="10,0,0,10" />
+          <ListBox Grid.Row="1" x:Name="TenantNavigation" SelectionChanged="OnTenantNavigationChanged"
+                   MaxHeight="440">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <Border Padding="10,10" CornerRadius="9">
+                  <Grid ColumnDefinitions="30,*" RowDefinitions="Auto,Auto">
+                    <Border Grid.RowSpan="2" Width="26" Height="26" CornerRadius="8"
+                            Background="{Binding Accent}" VerticalAlignment="Center">
+                      <TextBlock Text="{Binding Initials}" Foreground="#0C111B" FontSize="10"
+                                 FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <TextBlock Grid.Column="1" Text="{Binding Name}" FontSize="12" FontWeight="SemiBold"
+                               TextTrimming="CharacterEllipsis" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Detail}" FontSize="10"
+                               Foreground="{Binding DetailColor}" TextTrimming="CharacterEllipsis"
+                               Margin="0,3,0,0" />
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+          <Border Grid.Row="3" Background="#141B2D" BorderBrush="#303A57" BorderThickness="1"
+                  CornerRadius="10" Padding="12" Margin="0,12,0,0">
+            <StackPanel Spacing="6">
+              <TextBlock Text="SESSION STATUS" FontSize="10" FontWeight="SemiBold"
+                         Foreground="#8291A6" />
+              <TextBlock x:Name="WorkspaceStatus" Text="Add tenant profiles to get started."
+                         FontSize="11" Foreground="#BAC5D4" TextWrapping="Wrap" />
+            </StackPanel>
+          </Border>
+        </Grid>
+      </Border>
+
+      <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*" Margin="20,18,16,14">
+        <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,14">
+          <StackPanel Spacing="3">
+            <TextBlock x:Name="ViewTitle" Text="All assignments" FontSize="21" FontWeight="SemiBold" />
+            <TextBlock x:Name="ViewSubtitle" Text="A live view across your configured tenants"
+                       FontSize="11" Foreground="#8291A6" />
+          </StackPanel>
+          <CheckBox Grid.Column="1" x:Name="FavoritesOnly" Content="★ Favorites"
+                    VerticalAlignment="Center" Checked="OnFilterChanged" Unchecked="OnFilterChanged"
+                    Foreground="#EDF1FA" />
+        </Grid>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*" Margin="0,0,0,14">
+          <Border Background="#141B2D" BorderBrush="#303A57" BorderThickness="1" CornerRadius="10" Padding="13,10">
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel Spacing="4">
+                <TextBlock Text="ELIGIBLE" FontSize="9" Foreground="#AAA7F5" />
+                <TextBlock x:Name="EligibleCount" Text="0" FontSize="21" FontWeight="SemiBold" />
+              </StackPanel>
+              <Border Grid.Column="1" Width="8" Height="8" CornerRadius="4" Background="#AAA7F5"
+                      VerticalAlignment="Center" />
+            </Grid>
+          </Border>
+          <Border Grid.Column="1" Background="#141B2D" BorderBrush="#303A57" BorderThickness="1"
+                  CornerRadius="10" Padding="13,10" Margin="5,0">
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel Spacing="4">
+                <TextBlock Text="ACTIVE NOW" FontSize="9" Foreground="#55B7F3" />
+                <TextBlock x:Name="ActiveCount" Text="0" FontSize="21" FontWeight="SemiBold" />
+              </StackPanel>
+              <Border Grid.Column="1" Width="8" Height="8" CornerRadius="4" Background="#0093E5"
+                      VerticalAlignment="Center" />
+            </Grid>
+          </Border>
+          <Border Grid.Column="2" Background="#211E23" BorderBrush="#453642" BorderThickness="1"
+                  CornerRadius="10" Padding="13,10" Margin="5,0,0,0">
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel Spacing="4">
+                <TextBlock Text="EXPIRING WITHIN 1H" FontSize="9" Foreground="#B69AAA"
+                           />
+                <TextBlock x:Name="ExpiringCount" Text="0" FontSize="21" FontWeight="SemiBold"
+                           Foreground="#FFB86B" />
+              </StackPanel>
+              <TextBlock Grid.Column="1" Text="◷" FontSize="19" Foreground="#FFB86B"
+                         VerticalAlignment="Center" />
+            </Grid>
+          </Border>
+        </Grid>
+
+        <Grid Grid.Row="2" RowDefinitions="Auto,*">
+          <Grid ColumnDefinitions="*,150" Margin="0,0,0,10">
+            <TextBox x:Name="SearchBox" Watermark="⌕  Search roles, groups, or tenants"
+                     TextChanged="OnSearchChanged" />
+            <ComboBox Grid.Column="1" x:Name="StatusFilter" Margin="8,0,0,0"
+                      SelectionChanged="OnStatusFilterChanged">
+              <ComboBoxItem Content="All statuses" />
+              <ComboBoxItem Content="Eligible" />
+              <ComboBoxItem Content="Active" />
+            </ComboBox>
+          </Grid>
+          <Border Grid.Row="1" Background="#11182B" BorderBrush="#252E48" BorderThickness="1"
+                  CornerRadius="12" Padding="10">
+            <Grid RowDefinitions="Auto,*">
+              <Grid ColumnDefinitions="*,110,115" Margin="10,4,12,10">
+                <TextBlock Text="ASSIGNMENT" FontSize="9" FontWeight="SemiBold" Foreground="#8291A6" />
+                <TextBlock Grid.Column="1" Text="STATE" FontSize="9" FontWeight="SemiBold"
+                           Foreground="#8291A6" />
+                <TextBlock Grid.Column="2" Text="TIME LEFT" FontSize="9" FontWeight="SemiBold"
+                           Foreground="#8291A6" />
+              </Grid>
+              <ListBox Grid.Row="1" x:Name="AssignmentsList" SelectionMode="Single">
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <Border Background="#141B2D" BorderBrush="#2C3652" BorderThickness="1"
+                            CornerRadius="9" Padding="11,10">
+                      <Grid ColumnDefinitions="*,110,115" VerticalAlignment="Center">
+                        <StackPanel Spacing="4">
+                          <TextBlock Text="{Binding DisplayName}" FontSize="12" FontWeight="SemiBold"
+                                     TextTrimming="CharacterEllipsis" />
+                          <TextBlock Text="{Binding ContextLine}" FontSize="10" Foreground="#91A0B4"
+                                     TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                        <Border Grid.Column="1" Background="{Binding StatusBackground}" CornerRadius="10"
+                                Padding="8,4" HorizontalAlignment="Left" VerticalAlignment="Center">
+                          <TextBlock Text="{Binding StatusLabel}" FontSize="9" FontWeight="SemiBold"
+                                     Foreground="{Binding StatusForeground}" />
+                        </Border>
+                        <StackPanel Grid.Column="2" Spacing="3" VerticalAlignment="Center">
+                          <TextBlock Text="{Binding ExpiryLabel}" FontSize="10" FontWeight="SemiBold"
+                                     Foreground="{Binding ExpiryForeground}" />
+                          <TextBlock Text="{Binding ExpiryCaption}" FontSize="9" Foreground="#8291A6" />
+                        </StackPanel>
+                      </Grid>
+                    </Border>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+            </Grid>
+          </Border>
+        </Grid>
+      </Grid>
+
+      <Border Grid.Column="2" Background="#0F1627" BorderBrush="#252E48" BorderThickness="1,0,0,0"
+              Padding="17,19">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel Spacing="14">
+            <StackPanel Spacing="4">
+              <TextBlock Text="ACCESS INSPECTOR" FontSize="10" FontWeight="SemiBold" Foreground="#8291A6" />
+              <TextBlock Text="Assignment details and actions" FontSize="16" FontWeight="SemiBold" />
+            </StackPanel>
+            <Border Background="#141B2D" BorderBrush="#303A57" BorderThickness="1" CornerRadius="11"
+                    Padding="13">
+              <StackPanel Spacing="10">
+                <TextBlock x:Name="InspectorTitle" Text="Select an assignment" FontSize="17"
+                           FontWeight="SemiBold" TextWrapping="Wrap" />
+                <Border x:Name="InspectorStatusBadge" IsVisible="False" CornerRadius="10"
+                        HorizontalAlignment="Left" Padding="9,5">
+                  <TextBlock x:Name="InspectorStatus" FontSize="10" FontWeight="SemiBold" />
+                </Border>
+                <Border Height="1" Background="#303A57" />
+                <StackPanel Spacing="3">
+                  <TextBlock Text="TENANT" FontSize="9" Foreground="#8291A6" />
+                  <TextBlock x:Name="InspectorTenant" Text="—" FontSize="12" TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel Spacing="3">
+                  <TextBlock Text="ASSIGNMENT TYPE" FontSize="9" Foreground="#8291A6" />
+                  <TextBlock x:Name="InspectorType" Text="—" FontSize="12" />
+                </StackPanel>
+                <StackPanel Spacing="3">
+                  <TextBlock Text="SOURCE / DEPENDENCY" FontSize="9" Foreground="#8291A6" />
+                  <TextBlock x:Name="InspectorSource" Text="—" FontSize="12" TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel Spacing="3">
+                  <TextBlock Text="EXPIRATION" FontSize="9" Foreground="#8291A6" />
+                  <TextBlock x:Name="InspectorExpiry" Text="—" FontSize="12" />
+                </StackPanel>
+              </StackPanel>
+            </Border>
+
+            <StackPanel Spacing="6">
+              <TextBlock Text="ACTIVATION DURATION" FontSize="9" Foreground="#8291A6" />
+              <TextBox x:Name="DurationBox" Watermark="Suggested from your workday, e.g. PT2H" />
+              <TextBlock x:Name="DurationHint" Text="Policy limit and working-hour default apply."
+                         FontSize="10" Foreground="#8291A6" TextWrapping="Wrap" />
+            </StackPanel>
+            <StackPanel Spacing="6">
+              <TextBlock Text="JUSTIFICATION" FontSize="9" Foreground="#8291A6" />
+              <TextBox x:Name="JustificationBox" Watermark="Why do you need this access?"
+                       AcceptsReturn="True" MinHeight="62" TextWrapping="Wrap" />
+            </StackPanel>
+            <Button x:Name="ActivateButton" Content="↑   Activate assignment" Click="OnActivateClick"
+                    Background="#0093E5" Foreground="#071426" BorderBrush="#0093E5"
+                    FontWeight="SemiBold" HorizontalContentAlignment="Center" IsEnabled="False" />
+            <Button x:Name="DeactivateButton" Content="↓   Deactivate assignment" Click="OnDeactivateClick"
+                    HorizontalContentAlignment="Center" IsEnabled="False" />
+            <Button x:Name="FavoriteButton" Content="☆   Add to favorites" Click="OnFavoriteClick"
+                    HorizontalContentAlignment="Center" IsEnabled="False" />
+            <Border Background="#141B2D" BorderBrush="#303A57" BorderThickness="1" CornerRadius="10"
+                    Padding="11" Margin="0,5,0,0">
+              <StackPanel Spacing="5">
+                <TextBlock Text="ACTION SAFETY" FontSize="9" Foreground="#8291A6"
+                           FontWeight="SemiBold" />
+                <TextBlock x:Name="ActionSafetyText" Text="Actions are routed using this assignment’s tenant."
+                           FontSize="10" Foreground="#BAC5D4" TextWrapping="Wrap" />
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </ScrollViewer>
+      </Border>
+    </Grid>
+
+    <Border Grid.Row="2" Background="#11182B" BorderBrush="#252E48" BorderThickness="0,1,0,0"
+            Padding="18,9">
+      <TextBlock x:Name="FooterText" Text="Ready" FontSize="10" Foreground="#91A0B4"
+                 TextTrimming="CharacterEllipsis" />
+    </Border>
+  </Grid>
+</Window>

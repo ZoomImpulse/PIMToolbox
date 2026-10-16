@@ -3,7 +3,7 @@
 Stand: 2026-07-23  
 Scope: Microsoft Entra Rollen-PIM + PIM for Groups (nicht Azure Resource PIM)
 
-Statushinweis: Diese Referenz beschreibt weiterhin das Verhalten der unveraenderten PowerShell/WPF-Version in `PIMToolbox.ps1` und dient als fachliche Spezifikation fuer die Migration. Die neue Avalonia/.NET-Implementierung liegt unter `src/PIMToolbox.Core`; Aufbau, Konfiguration und Verifikationsstand sind in `README.md` dokumentiert.
+Statushinweis: Diese Referenz fasst das historische Verhalten der frueheren PowerShell/WPF-Version zusammen und dient als fachliche Referenz. Die PowerShell-Datei wurde aus dem Repository entfernt. Die gepflegte Avalonia/.NET-Implementierung liegt unter `src/PIMToolbox.Core`; Aufbau, Konfiguration und Verifikationsstand sind in `README.md` dokumentiert.
 
 ## 1) Ziel dieser Referenz
 

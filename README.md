@@ -1,6 +1,6 @@
 # PIM Toolbox
 
-PIM Toolbox is being migrated from the original Windows PowerShell/WPF client to a native cross-platform Avalonia desktop app. The legacy [`PIMToolbox.ps1`](./PIMToolbox.ps1) remains in the repository for comparison and fallback; the replacement lives in `src/`.
+PIM Toolbox is a native cross-platform Avalonia desktop app for managing Microsoft Entra PIM assignments. The former Windows PowerShell/WPF implementation has been removed; the maintained application lives in `src/`.
 
 The new client is split into:
 
@@ -130,12 +130,14 @@ Avalonia documents its `TrayIcon` as supported on Windows and macOS, where the m
 
 ## Existing settings and favorites migration
 
-The original PowerShell app uses `%LOCALAPPDATA%\PIMToolbox\settings.json` with `Tenants`, `FavoriteRoles`, `GlobalJustification`, `WorkStartTime`, and `WorkEndTime`. On Windows, the new app reads that legacy file once when `settings.v2.json` does not exist:
+The previous Windows app stored `%LOCALAPPDATA%\PIMToolbox\settings.json` with `Tenants`, `FavoriteRoles`, `GlobalJustification`, `WorkStartTime`, and `WorkEndTime`. On Windows, the Avalonia app reads that existing file once when `settings.v2.json` does not exist:
 
 - tenant names and IDs are carried forward;
 - favorite identity is migrated from `TenantId`, `Id`, and `ResourceId`;
 - justification and working-hour values are carried forward;
 - the legacy file is left untouched.
+
+Tenant IDs and tenant-specific app IDs are not embedded as repository defaults. Configure tenant IDs, client IDs, and profile paths locally in `settings.v2.json`; do not commit tenant configuration or IDs.
 
 The old settings do not contain an app client ID, expected user, or Edge profile mapping. Add those fields to each migrated tenant before signing in. The old DPAPI refresh-token files are intentionally **not** imported; authenticate once per tenant so MSAL creates its separately protected cache. The old active-role countdown cache is not needed for countdowns because the replacement reads active end times from Graph. The five-minute deactivation lockout starts tracking activations made by the replacement app; already-active assignments use Graph's start time when provided. Legacy session activation records are not imported, so wait five minutes before deactivating any just-activated assignment after switching apps if its Graph start time is unavailable.
 
@@ -170,9 +172,9 @@ dotnet publish src/PIMToolbox.Desktop/PIMToolbox.Desktop.csproj -c Release -r os
 
 Bundle the publish output into `PIMToolbox.app/Contents/MacOS`, provide an `Info.plist` with bundle identifier/version, and include required Avalonia resources. Sign with a **Developer ID Application** certificate using hardened runtime and a timestamp. Submit the signed `.app`/DMG/ZIP with `xcrun notarytool submit --wait`, then staple the notarization ticket with `xcrun stapler staple`. Test Gatekeeper launch and Edge profile launching on a clean macOS account.
 
-## Original implementation
+## Historical architecture reference
 
-The PowerShell/WPF implementation remains available at [`PIMToolbox.ps1`](./PIMToolbox.ps1) for comparison and fallback during migration. Its architecture reference for Entra PIM and PIM for Groups is in [`docs/entra-id-pim-architektur-referenz.md`](./docs/entra-id-pim-architektur-referenz.md).
+The historical behavior of the former PowerShell/WPF application is summarized in [`docs/entra-id-pim-architektur-referenz.md`](./docs/entra-id-pim-architektur-referenz.md). It is a domain reference, not a current executable or supported implementation.
 
 ## License
 

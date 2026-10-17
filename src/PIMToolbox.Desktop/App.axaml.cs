@@ -30,11 +30,14 @@ public partial class App : Application
             desktop.MainWindow is { } window)
         {
             window.Show();
+            window.WindowState = WindowState.Normal;
             window.Activate();
         }
     }
 
-    private void OnTrayExit(object? sender, EventArgs e)
+    private void OnTrayExit(object? sender, EventArgs e) => ExitApplication();
+
+    public void ExitApplication()
     {
         IsExiting = true;
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)

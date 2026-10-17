@@ -7,7 +7,7 @@
   </Application.Styles>
   <TrayIcon.Icons>
     <TrayIcons>
-      <TrayIcon ToolTipText="PIM Toolbox">
+      <TrayIcon ToolTipText="PIM Toolbox" Clicked="OnTrayShow">
         <TrayIcon.Menu>
           <NativeMenu>
             <NativeMenuItem Header="Show PIM Toolbox" Click="OnTrayShow" />

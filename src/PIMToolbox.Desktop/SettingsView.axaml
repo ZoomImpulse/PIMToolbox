@@ -1,0 +1,240 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:PIMToolbox.Desktop"
+             x:Class="PIMToolbox.Desktop.SettingsView"
+             x:CompileBindings="True"
+             x:DataType="local:SettingsView">
+  <UserControl.Styles>
+    <Style Selector="TextBlock">
+      <Setter Property="Foreground" Value="#EDF1FA" />
+    </Style>
+    <Style Selector="TextBox">
+      <Setter Property="Background" Value="#141B2D" />
+      <Setter Property="Foreground" Value="#EDF1FA" />
+      <Setter Property="BorderBrush" Value="#343E5C" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="10,8" />
+    </Style>
+    <Style Selector="Button">
+      <Setter Property="Background" Value="#202844" />
+      <Setter Property="Foreground" Value="#EDF1FA" />
+      <Setter Property="BorderBrush" Value="#343E5C" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="12,8" />
+      <Setter Property="Transitions">
+        <Transitions>
+          <BrushTransition Property="Background" Duration="0:0:0.12" />
+          <BrushTransition Property="BorderBrush" Duration="0:0:0.12" />
+        </Transitions>
+      </Setter>
+    </Style>
+    <Style Selector="Button:pointerover">
+      <Setter Property="Background" Value="#2A3655" />
+      <Setter Property="BorderBrush" Value="#596B91" />
+    </Style>
+    <Style Selector="Button:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#2A3655" />
+      <Setter Property="BorderBrush" Value="#596B91" />
+    </Style>
+    <Style Selector="Button:pressed /template/ ContentPresenter">
+      <Setter Property="Background" Value="#344467" />
+      <Setter Property="BorderBrush" Value="#7185AD" />
+    </Style>
+    <Style Selector="TextBox:pointerover">
+      <Setter Property="BorderBrush" Value="#596B91" />
+    </Style>
+    <Style Selector="TextBox:focus-visible">
+      <Setter Property="BorderBrush" Value="#55B7F3" />
+    </Style>
+    <Style Selector="ComboBox:pointerover">
+      <Setter Property="BorderBrush" Value="#596B91" />
+    </Style>
+    <Style Selector="ComboBox:focus-visible">
+      <Setter Property="BorderBrush" Value="#55B7F3" />
+    </Style>
+    <Style Selector="ComboBoxItem:pointerover">
+      <Setter Property="Background" Value="#263A61" />
+    </Style>
+    <Style Selector="ComboBoxItem:selected">
+      <Setter Property="Background" Value="#1C2B4A" />
+    </Style>
+  </UserControl.Styles>
+
+  <Grid RowDefinitions="Auto,*,Auto" MinWidth="0" MinHeight="0">
+    <StackPanel Grid.Row="0" Spacing="5" Margin="24,20,24,16">
+      <TextBlock Text="Settings" FontSize="24" FontWeight="SemiBold" />
+      <TextBlock Text="{CompiledBinding SettingsFilePath}" FontSize="11"
+                 Foreground="#91A0B4" TextTrimming="CharacterEllipsis" />
+    </StackPanel>
+
+    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel Spacing="16" Margin="24,0,24,18">
+        <Border Background="#11182B" BorderBrush="#303A57" BorderThickness="1"
+                CornerRadius="10" Padding="16">
+          <StackPanel Spacing="12">
+            <TextBlock Text="GENERAL" FontSize="10" FontWeight="SemiBold"
+                       Foreground="#91A0B4" />
+            <StackPanel Spacing="5">
+              <TextBlock Text="Default justification" FontSize="12" />
+              <TextBox x:Name="GlobalJustificationBox"
+                       Text="{CompiledBinding GlobalJustification, Mode=TwoWay}"
+                       AutomationProperties.Name="Default justification"
+                       AutomationProperties.AutomationId="GlobalJustification" />
+            </StackPanel>
+            <Grid x:Name="WorkdayFields" ColumnDefinitions="*,*" RowDefinitions="Auto,0"
+                  SizeChanged="OnSettingsFieldGridSizeChanged">
+              <StackPanel x:Name="WorkdayStartField" Grid.Row="0" Spacing="5" Margin="0,0,12,0">
+                <TextBlock Text="Workday starts" FontSize="12" />
+                <TextBox x:Name="WorkStartTimeBox"
+                         Text="{CompiledBinding WorkStartTime, Mode=TwoWay}"
+                         Watermark="HH:mm"
+                         AutomationProperties.Name="Workday start time"
+                         AutomationProperties.AutomationId="WorkStartTime" />
+              </StackPanel>
+              <StackPanel x:Name="WorkdayEndField" Grid.Row="0" Grid.Column="1" Spacing="5">
+                <TextBlock Text="Workday ends" FontSize="12" />
+                <TextBox x:Name="WorkEndTimeBox"
+                         Text="{CompiledBinding WorkEndTime, Mode=TwoWay}"
+                         Watermark="HH:mm"
+                         AutomationProperties.Name="Workday end time"
+                         AutomationProperties.AutomationId="WorkEndTime" />
+              </StackPanel>
+            </Grid>
+            <StackPanel Spacing="5">
+              <TextBlock Text="When closing with X" FontSize="12" />
+              <ComboBox x:Name="CloseBehavior"
+                        SelectedIndex="{CompiledBinding CloseActionIndex, Mode=TwoWay}"
+                        AutomationProperties.Name="Close behavior"
+                        AutomationProperties.AutomationId="CloseBehavior">
+                <ComboBoxItem Content="Ask me the first time" />
+                <ComboBoxItem Content="Exit application" />
+                <ComboBoxItem Content="Minimize to tray" />
+              </ComboBox>
+              <TextBlock Text="You can always exit from the tray menu."
+                         FontSize="10" Foreground="#91A0B4" />
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
+        <Grid ColumnDefinitions="*,Auto">
+          <StackPanel Spacing="4">
+            <TextBlock Text="TENANT PROFILES" FontSize="10" FontWeight="SemiBold"
+                       Foreground="#91A0B4" />
+            <TextBlock Text="Sign-in identity and browser profile for each tenant."
+                       FontSize="12" />
+          </StackPanel>
+          <Button x:Name="AddTenantButton" Grid.Column="1" Content="＋  Add tenant" Click="OnAddTenantClick"
+                  VerticalAlignment="Center"
+                  AutomationProperties.Name="Add tenant profile"
+                  AutomationProperties.AutomationId="AddTenantButton" />
+        </Grid>
+
+        <ItemsControl x:Name="TenantEditors" ItemsSource="{CompiledBinding Tenants}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="local:TenantEditorModel">
+              <Border Background="#11182B" BorderBrush="#303A57" BorderThickness="1"
+                      CornerRadius="10" Padding="16" Margin="0,0,0,12">
+                <StackPanel Spacing="12">
+                  <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Text="{CompiledBinding Name}" FontSize="15"
+                               FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <Button Grid.Column="1" Content="Remove" Click="OnRemoveTenantClick"
+                            AutomationProperties.Name="Remove tenant profile"
+                            AutomationProperties.AutomationId="RemoveTenantButton" />
+                  </Grid>
+                  <Grid x:Name="TenantIdentityFields" ColumnDefinitions="*,*" RowDefinitions="Auto,0"
+                        SizeChanged="OnSettingsFieldGridSizeChanged">
+                    <StackPanel x:Name="TenantNameField" Grid.Row="0" Spacing="5" Margin="0,0,12,0">
+                      <TextBlock Text="Tenant name" FontSize="12" />
+                      <TextBox Text="{CompiledBinding Name, Mode=TwoWay}"
+                               AutomationProperties.Name="Tenant name" />
+                    </StackPanel>
+                    <StackPanel x:Name="TenantIdField" Grid.Row="0" Grid.Column="1" Spacing="5">
+                      <TextBlock Text="Tenant ID" FontSize="12" />
+                      <TextBox Text="{CompiledBinding TenantId, Mode=TwoWay}"
+                               AutomationProperties.Name="Tenant ID" />
+                    </StackPanel>
+                  </Grid>
+                  <Grid x:Name="TenantApplicationFields" ColumnDefinitions="*,*" RowDefinitions="Auto,0"
+                        SizeChanged="OnSettingsFieldGridSizeChanged">
+                    <StackPanel x:Name="TenantClientIdField" Grid.Row="0" Spacing="5" Margin="0,0,12,0">
+                      <TextBlock Text="Application (client) ID" FontSize="12" />
+                      <TextBox Text="{CompiledBinding ClientId, Mode=TwoWay}"
+                               AutomationProperties.Name="Application client ID" />
+                    </StackPanel>
+                    <StackPanel x:Name="ExpectedUsernameField" Grid.Row="0" Grid.Column="1" Spacing="5">
+                      <TextBlock Text="Expected sign-in username (optional)" FontSize="12" />
+                      <TextBox Text="{CompiledBinding ExpectedUsername, Mode=TwoWay}"
+                               AutomationProperties.Name="Expected sign-in username" />
+                    </StackPanel>
+                  </Grid>
+                  <StackPanel Spacing="7">
+                    <TextBlock Text="SIGN-IN BROWSER PROFILE" FontSize="10" FontWeight="SemiBold"
+                               Foreground="#91A0B4" />
+                    <ComboBox ItemsSource="{CompiledBinding EdgeProfiles}"
+                              SelectedItem="{CompiledBinding SelectedEdgeProfile, Mode=TwoWay}"
+                              AutomationProperties.Name="Microsoft Edge profile"
+                              AutomationProperties.AutomationId="EdgeProfileSelector">
+                      <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="local:EdgeProfileOption">
+                          <TextBlock Text="{CompiledBinding DisplayName}" />
+                        </DataTemplate>
+                      </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Grid ColumnDefinitions="Auto,Auto,*">
+                      <Button Content="Choose Edge…" Click="OnBrowseEdgeExecutableClick" Margin="0,0,8,0"
+                              AutomationProperties.Name="Choose Microsoft Edge executable" />
+                      <Button Grid.Column="1" Content="Choose Edge data folder…" Margin="0,0,8,0"
+                              Click="OnBrowseUserDataDirectoryClick"
+                              AutomationProperties.Name="Choose Edge User Data folder" />
+                      <Button Grid.Column="2" Content="Refresh detected profiles"
+                              Click="OnRefreshEdgeProfilesClick"
+                              HorizontalAlignment="Left"
+                              AutomationProperties.Name="Refresh detected Edge profiles" />
+                    </Grid>
+                    <TextBlock Text="{CompiledBinding EdgeExecutable}" FontSize="10"
+                               Foreground="#91A0B4" TextTrimming="CharacterEllipsis" />
+                    <TextBlock Text="{CompiledBinding EdgeUserDataDirectory}" FontSize="10"
+                               Foreground="#91A0B4" TextTrimming="CharacterEllipsis" />
+                    <Expander Header="Advanced: edit Edge paths manually">
+                      <StackPanel Spacing="6" Margin="0,8,0,0">
+                        <TextBox Text="{CompiledBinding EdgeExecutable, Mode=TwoWay}"
+                                 Watermark="Edge executable path"
+                                 AutomationProperties.Name="Microsoft Edge executable path" />
+                        <TextBox Text="{CompiledBinding EdgeUserDataDirectory, Mode=TwoWay}"
+                                 Watermark="Edge user-data directory"
+                                 AutomationProperties.Name="Edge user-data directory" />
+                        <TextBox Text="{CompiledBinding EdgeProfileDirectory, Mode=TwoWay}"
+                                 Watermark="Profile directory, for example Default"
+                                 AutomationProperties.Name="Edge profile directory" />
+                      </StackPanel>
+                    </Expander>
+                  </StackPanel>
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <TextBlock x:Name="ErrorText" FontSize="12" Foreground="#FFB86B"
+                   TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+      </StackPanel>
+    </ScrollViewer>
+
+    <Border Grid.Row="2" Background="#11182B" BorderBrush="#252E48"
+            BorderThickness="0,1,0,0" Padding="20,12">
+      <Grid ColumnDefinitions="*,Auto,Auto">
+        <TextBlock Text="Changes are applied immediately after saving."
+                   FontSize="11" Foreground="#91A0B4" VerticalAlignment="Center" />
+        <Button x:Name="CancelButton" Grid.Column="1" Content="Cancel" Click="OnCancelClick"
+                Margin="0,0,8,0"
+                AutomationProperties.AutomationId="CancelSettingsButton" />
+        <Button x:Name="SaveButton" Grid.Column="2" Content="Save settings"
+                Click="OnSaveClick" Background="#0093E5" Foreground="#071426"
+                BorderBrush="#0093E5" FontWeight="SemiBold"
+                AutomationProperties.AutomationId="SaveSettingsButton" />
+      </Grid>
+    </Border>
+  </Grid>
+</UserControl>

@@ -10,6 +10,7 @@ public sealed class PimToolboxSettings
     public string GlobalJustification { get; set; } = "PIM Quick Action";
     public string WorkStartTime { get; set; } = "08:00";
     public string WorkEndTime { get; set; } = "17:00";
+    public string? CloseAction { get; set; }
     public Dictionary<string, DateTimeOffset> ActivationStartTimes { get; set; } =
         new(StringComparer.OrdinalIgnoreCase);
 }
@@ -50,6 +51,7 @@ public sealed class PimToolboxSettingsStore
 
     public async Task SaveAsync(PimToolboxSettings settings, CancellationToken cancellationToken = default)
     {
+        ValidateProfileIsolation(settings);
         Directory.CreateDirectory(DataDirectory);
         var temporaryPath = $"{SettingsPath}.tmp";
         await using (var output = File.Create(temporaryPath))
@@ -105,13 +107,24 @@ public sealed class PimToolboxSettingsStore
 
     private static void ValidateProfileIsolation(PimToolboxSettings settings)
     {
-        var sharedProfile = settings.Tenants
-            .Where(EdgeProfileLauncher.IsConfigured)
-            .GroupBy(tenant => Path.GetFullPath(tenant.EdgeUserDataDirectory), StringComparer.OrdinalIgnoreCase)
+        var configuredProfiles = settings.Tenants.Where(EdgeProfileLauncher.IsConfigured).ToArray();
+        var invalidProfile = configuredProfiles.FirstOrDefault(tenant =>
+            string.IsNullOrWhiteSpace(tenant.EdgeProfileDirectory) ||
+            tenant.EdgeProfileDirectory is "." or ".." ||
+            tenant.EdgeProfileDirectory.Contains('/') ||
+            tenant.EdgeProfileDirectory.Contains('\\'));
+        if (invalidProfile is not null)
+            throw new InvalidDataException(
+                $"Edge profile directory '{invalidProfile.EdgeProfileDirectory}' must be a profile name, not a path.");
+
+        var sharedProfile = configuredProfiles
+            .GroupBy(tenant => Path.GetFullPath(Path.Combine(
+                tenant.EdgeUserDataDirectory,
+                tenant.EdgeProfileDirectory)), StringComparer.OrdinalIgnoreCase)
             .FirstOrDefault(group => group.Count() > 1);
         if (sharedProfile is not null)
             throw new InvalidDataException(
-                $"Multiple tenants use the same Edge user-data directory '{sharedProfile.Key}'. Configure an isolated directory per tenant.");
+                $"Multiple tenants use the same Edge profile '{sharedProfile.Key}'. Select a different profile for each tenant.");
     }
 
     public static string FavoriteKey(PimAssignment assignment) =>

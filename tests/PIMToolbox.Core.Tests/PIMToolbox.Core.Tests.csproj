@@ -7,8 +7,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="Avalonia.Headless.XUnit" Version="11.2.3" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
     <ProjectReference Include="..\..\src\PIMToolbox.Core\PIMToolbox.Core.csproj" />
+    <ProjectReference Include="..\..\src\PIMToolbox.Desktop\PIMToolbox.Desktop.csproj" />
   </ItemGroup>
 </Project>

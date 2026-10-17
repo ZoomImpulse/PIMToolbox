@@ -1,13 +1,15 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:svg="clr-namespace:Avalonia.Svg.Skia;assembly=Avalonia.Svg.Skia"
+        xmlns:local="using:PIMToolbox.Desktop"
         x:Class="PIMToolbox.Desktop.MainWindow"
         x:CompileBindings="False"
+        KeyDown="OnKeyDown"
         Title="PIM Toolbox"
         Width="1320"
         Height="840"
-        MinWidth="980"
-        MinHeight="640"
+        MinWidth="760"
+        MinHeight="560"
         Background="#0B1020">
   <Window.Styles>
     <Style Selector="TextBlock">
@@ -21,9 +23,63 @@
       <Setter Property="CornerRadius" Value="8" />
       <Setter Property="Padding" Value="12,8" />
       <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Transitions">
+        <Transitions>
+          <BrushTransition Property="Background" Duration="0:0:0.12" />
+          <BrushTransition Property="BorderBrush" Duration="0:0:0.12" />
+        </Transitions>
+      </Setter>
+    </Style>
+    <Style Selector="Button:disabled">
+      <Setter Property="Opacity" Value="0.48" />
+      <Setter Property="Cursor" Value="Arrow" />
     </Style>
     <Style Selector="Button:pointerover">
       <Setter Property="Background" Value="#2A3655" />
+      <Setter Property="BorderBrush" Value="#596B91" />
+    </Style>
+    <Style Selector="Button:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#2A3655" />
+      <Setter Property="BorderBrush" Value="#596B91" />
+    </Style>
+    <Style Selector="Button:pressed">
+      <Setter Property="Background" Value="#344467" />
+      <Setter Property="BorderBrush" Value="#7185AD" />
+    </Style>
+    <Style Selector="Button:pressed /template/ ContentPresenter">
+      <Setter Property="Background" Value="#344467" />
+      <Setter Property="BorderBrush" Value="#7185AD" />
+    </Style>
+    <Style Selector="Button:focus-visible">
+      <Setter Property="BorderBrush" Value="#55B7F3" />
+    </Style>
+    <Style Selector="Button.PrimaryAction">
+      <Setter Property="Background" Value="#0093E5" />
+      <Setter Property="Foreground" Value="#071426" />
+      <Setter Property="BorderBrush" Value="#0093E5" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="Button.PrimaryAction:pointerover">
+      <Setter Property="Background" Value="#38A9ED" />
+      <Setter Property="BorderBrush" Value="#67C1F5" />
+    </Style>
+    <Style Selector="Button.PrimaryAction:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#38A9ED" />
+      <Setter Property="BorderBrush" Value="#67C1F5" />
+    </Style>
+    <Style Selector="Button.PrimaryAction:pressed">
+      <Setter Property="Background" Value="#0076B9" />
+      <Setter Property="BorderBrush" Value="#55B7F3" />
+    </Style>
+    <Style Selector="Button.PrimaryAction:pressed /template/ ContentPresenter">
+      <Setter Property="Background" Value="#0076B9" />
+      <Setter Property="BorderBrush" Value="#55B7F3" />
+    </Style>
+    <Style Selector="TextBox:pointerover">
+      <Setter Property="BorderBrush" Value="#596B91" />
+    </Style>
+    <Style Selector="TextBox:focus-visible">
+      <Setter Property="BorderBrush" Value="#55B7F3" />
     </Style>
     <Style Selector="TextBox">
       <Setter Property="Background" Value="#141B2D" />
@@ -31,6 +87,11 @@
       <Setter Property="BorderBrush" Value="#343E5C" />
       <Setter Property="CornerRadius" Value="8" />
       <Setter Property="Padding" Value="10,8" />
+      <Setter Property="Transitions">
+        <Transitions>
+          <BrushTransition Property="BorderBrush" Duration="0:0:0.12" />
+        </Transitions>
+      </Setter>
     </Style>
     <Style Selector="ComboBox">
       <Setter Property="Background" Value="#141B2D" />
@@ -38,6 +99,23 @@
       <Setter Property="BorderBrush" Value="#343E5C" />
       <Setter Property="CornerRadius" Value="8" />
       <Setter Property="Padding" Value="8,5" />
+      <Setter Property="Transitions">
+        <Transitions>
+          <BrushTransition Property="BorderBrush" Duration="0:0:0.12" />
+        </Transitions>
+      </Setter>
+    </Style>
+    <Style Selector="ComboBox:pointerover">
+      <Setter Property="BorderBrush" Value="#596B91" />
+    </Style>
+    <Style Selector="ComboBox:focus-visible">
+      <Setter Property="BorderBrush" Value="#55B7F3" />
+    </Style>
+    <Style Selector="ComboBoxItem:pointerover">
+      <Setter Property="Background" Value="#263A61" />
+    </Style>
+    <Style Selector="ComboBoxItem:selected">
+      <Setter Property="Background" Value="#1C2B4A" />
     </Style>
     <Style Selector="ListBox">
       <Setter Property="Background" Value="Transparent" />
@@ -47,17 +125,67 @@
       <Setter Property="Padding" Value="0" />
       <Setter Property="Margin" Value="0,0,0,7" />
       <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Transitions">
+        <Transitions>
+          <BrushTransition Property="Background" Duration="0:0:0.12" />
+        </Transitions>
+      </Setter>
     </Style>
     <Style Selector="ListBoxItem:pointerover">
       <Setter Property="Background" Value="#19233B" />
     </Style>
+    <Style Selector="ProgressBar.refresh-progress">
+      <Setter Property="MinHeight" Value="8" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="#38A9ED" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="ProgressBar.refresh-progress /template/ Border#PART_Track">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="ProgressBar.refresh-progress /template/ Border#PART_Indicator">
+      <Setter Property="Background" Value="#38A9ED" />
+    </Style>
     <Style Selector="ListBoxItem:selected">
       <Setter Property="Background" Value="#1C2B4A" />
+      <Setter Property="BorderBrush" Value="#0093E5" />
+    </Style>
+    <Style Selector="ListBoxItem:selected:pointerover">
+      <Setter Property="Background" Value="#263A61" />
+      <Setter Property="BorderBrush" Value="#55B7F3" />
+    </Style>
+    <Style Selector="ListBoxItem:focus-visible">
+      <Setter Property="BorderBrush" Value="#55B7F3" />
+    </Style>
+    <Style Selector="Border.AssignmentCard">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#19233B" />
+    </Style>
+    <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+      <Setter Property="Background" Value="#1C2B4A" />
+    </Style>
+    <Style Selector="ListBoxItem:pointerover Border.AssignmentCard">
+      <Setter Property="Background" Value="#202D49" />
+      <Setter Property="BorderBrush" Value="#596B91" />
+    </Style>
+    <Style Selector="ListBoxItem:selected Border.AssignmentCard">
+      <Setter Property="Background" Value="#1C2B4A" />
+      <Setter Property="BorderBrush" Value="#0093E5" />
+    </Style>
+    <Style Selector="ListBoxItem:selected:pointerover Border.AssignmentCard">
+      <Setter Property="Background" Value="#263A61" />
+      <Setter Property="BorderBrush" Value="#55B7F3" />
     </Style>
   </Window.Styles>
 
-  <Grid RowDefinitions="Auto,*,Auto">
+  <Grid>
+    <Grid x:Name="MainContent" RowDefinitions="Auto,Auto,*,Auto,Auto">
     <Border Grid.Row="0" Background="#11182B" BorderBrush="#252E48" BorderThickness="0,0,0,1" Padding="24,17">
       <Grid ColumnDefinitions="*,Auto">
         <StackPanel Spacing="3">
@@ -70,26 +198,60 @@
                      Foreground="#8291A6" Margin="40,0,0,0" />
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-          <Button Content="Sign in / verify" Click="OnSignInClick" />
-          <Button Content="↻  Refresh all" Click="OnRefreshClick" Background="#0093E5"
-                  Foreground="#071426" BorderBrush="#0093E5" FontWeight="SemiBold" />
-          <Button Content="Cancel" Click="OnCancelClick" />
-          <Button Content="⚙" Click="OnOpenSettingsClick" ToolTip.Tip="Open settings" />
+          <Button x:Name="SignInButton" Click="OnSignInClick"
+                  AutomationProperties.AutomationId="SignInButton">
+            <Grid ColumnDefinitions="Auto,32">
+              <TextBlock x:Name="SignInButtonLabel" Text="Sign in / verify" VerticalAlignment="Center" />
+              <ProgressBar Grid.Column="1" x:Name="SignInBusyIndicator" Width="24" Height="3" Margin="8,0,0,0"
+                           IsIndeterminate="True" IsVisible="False" VerticalAlignment="Center"
+                           AutomationProperties.Name="Sign-in in progress"
+                           AutomationProperties.AutomationId="SignInBusyIndicator" />
+            </Grid>
+          </Button>
+          <Button x:Name="RefreshAllButton" Classes="PrimaryAction" Content="↻  Refresh all" Click="OnRefreshClick"
+                  AutomationProperties.AutomationId="RefreshAllButton" />
+          <Button x:Name="SettingsButton" Content="⚙" Click="OnOpenSettingsClick" ToolTip.Tip="Open settings"
+                  AutomationProperties.Name="Open settings"
+                  AutomationProperties.AutomationId="SettingsButton" />
         </StackPanel>
       </Grid>
     </Border>
 
-    <Grid Grid.Row="1" ColumnDefinitions="218,*,320">
-      <Border Grid.Column="0" Background="#0F1627" BorderBrush="#252E48" BorderThickness="0,0,1,0"
+    <Border Grid.Row="1" x:Name="RefreshProgressPanel" IsVisible="False" Background="#141B2D"
+            BorderBrush="#303A57" BorderThickness="0,0,0,1" Padding="20,9">
+      <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+        <TextBlock x:Name="RefreshProgressText" Text="Preparing tenant refresh…" FontSize="12"
+                   Foreground="#EDF1FA" VerticalAlignment="Center"
+                   AutomationProperties.Name="Refresh progress"
+                   AutomationProperties.AutomationId="RefreshProgressText"
+                   AutomationProperties.LiveSetting="Polite" />
+        <Button Grid.Column="1" x:Name="CancelButton" Content="Cancel refresh" Click="OnCancelClick" IsEnabled="False"
+                Padding="12,6" MinHeight="32" AutomationProperties.Name="Cancel tenant refresh"
+                AutomationProperties.AutomationId="CancelButton" />
+        <Border Grid.Row="1" Grid.ColumnSpan="2" Height="8" Margin="0,8,0,0"
+                Background="#283650" CornerRadius="4" ClipToBounds="True">
+          <ProgressBar x:Name="RefreshProgressBar" Classes="refresh-progress" IsIndeterminate="True" Height="8"
+                       Background="Transparent" Foreground="#38A9ED" BorderThickness="0"
+                       AutomationProperties.Name="Tenant refresh activity"
+                       AutomationProperties.AutomationId="RefreshProgressBar" />
+        </Border>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="2" x:Name="DashboardLayout" ColumnDefinitions="218,*,320" RowDefinitions="*,0"
+          SizeChanged="OnDashboardSizeChanged"
+          ClipToBounds="True">
+      <Border Grid.Column="0" x:Name="TenantSidebar" Background="#0F1627" BorderBrush="#252E48" BorderThickness="0,0,1,0"
               Padding="14,18">
         <Grid RowDefinitions="Auto,Auto,*,Auto">
           <TextBlock Text="WORKSPACES" FontSize="10" FontWeight="SemiBold" Foreground="#8291A6"
                      Margin="10,0,0,10" />
           <ListBox Grid.Row="1" x:Name="TenantNavigation" SelectionChanged="OnTenantNavigationChanged"
-                   MaxHeight="440">
+                   MaxHeight="440" AutomationProperties.Name="Tenant workspaces"
+                   AutomationProperties.AutomationId="TenantNavigation">
             <ListBox.ItemTemplate>
               <DataTemplate>
-                <Border Padding="10,10" CornerRadius="9">
+                <Border Classes="AssignmentCard" BorderThickness="1" Padding="10,10" CornerRadius="9">
                   <Grid ColumnDefinitions="30,*" RowDefinitions="Auto,Auto">
                     <Border Grid.RowSpan="2" Width="26" Height="26" CornerRadius="8"
                             Background="{Binding Accent}" VerticalAlignment="Center">
@@ -100,6 +262,7 @@
                                TextTrimming="CharacterEllipsis" />
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Detail}" FontSize="10"
                                Foreground="{Binding DetailColor}" TextTrimming="CharacterEllipsis"
+                               ToolTip.Tip="{Binding Error}" AutomationProperties.HelpText="{Binding Error}"
                                Margin="0,3,0,0" />
                   </Grid>
                 </Border>
@@ -127,7 +290,7 @@
           </StackPanel>
           <CheckBox Grid.Column="1" x:Name="FavoritesOnly" Content="★ Favorites"
                     VerticalAlignment="Center" Checked="OnFilterChanged" Unchecked="OnFilterChanged"
-                    Foreground="#EDF1FA" />
+                    Foreground="#EDF1FA" AutomationProperties.AutomationId="FavoritesOnlyFilter" />
         </Grid>
 
         <Grid Grid.Row="1" ColumnDefinitions="*,*,*" Margin="0,0,0,14">
@@ -168,11 +331,21 @@
         </Grid>
 
         <Grid Grid.Row="2" RowDefinitions="Auto,*">
-          <Grid ColumnDefinitions="*,150" Margin="0,0,0,10">
-            <TextBox x:Name="SearchBox" Watermark="⌕  Search roles, groups, or tenants"
-                     TextChanged="OnSearchChanged" />
-            <ComboBox Grid.Column="1" x:Name="StatusFilter" Margin="8,0,0,0"
-                      SelectionChanged="OnStatusFilterChanged">
+          <Grid ColumnDefinitions="*,150" RowDefinitions="Auto,Auto" Margin="0,0,0,10">
+            <TextBlock x:Name="SearchLabel" Text="SEARCH" FontSize="9" Foreground="#8291A6"
+                       Margin="2,0,0,5" />
+            <TextBlock x:Name="StatusLabel" Grid.Column="1" Text="STATUS" FontSize="9"
+                       Foreground="#8291A6" Margin="10,0,0,5" />
+            <TextBox Grid.Row="1" x:Name="SearchBox" Watermark="⌕  Search roles, groups, or tenants"
+                     TextChanged="OnSearchChanged" AutomationProperties.Name="Search assignments"
+                     AutomationProperties.AutomationId="AssignmentSearch"
+                     AutomationProperties.LabeledBy="{Binding #SearchLabel}"
+                     AutomationProperties.HelpText="Search roles, groups, or tenants." />
+            <ComboBox Grid.Row="1" Grid.Column="1" x:Name="StatusFilter" Margin="8,0,0,0"
+                      SelectionChanged="OnStatusFilterChanged"
+                      AutomationProperties.Name="Filter by assignment status"
+                      AutomationProperties.AutomationId="AssignmentStatusFilter"
+                      AutomationProperties.LabeledBy="{Binding #StatusLabel}">
               <ComboBoxItem Content="All statuses" />
               <ComboBoxItem Content="Eligible" />
               <ComboBoxItem Content="Active" />
@@ -188,17 +361,26 @@
                 <TextBlock Grid.Column="2" Text="TIME LEFT" FontSize="9" FontWeight="SemiBold"
                            Foreground="#8291A6" />
               </Grid>
-              <ListBox Grid.Row="1" x:Name="AssignmentsList" SelectionMode="Single">
+              <ListBox Grid.Row="1" x:Name="AssignmentsList" SelectionMode="Single"
+                       AutomationProperties.Name="PIM assignments"
+                       AutomationProperties.AutomationId="AssignmentsList">
                 <ListBox.ItemTemplate>
                   <DataTemplate>
-                    <Border Background="#141B2D" BorderBrush="#2C3652" BorderThickness="1"
-                            CornerRadius="9" Padding="11,10">
+                    <Border Classes="AssignmentCard" BorderThickness="1" CornerRadius="9" Padding="11,10">
                       <Grid ColumnDefinitions="*,110,115" VerticalAlignment="Center">
                         <StackPanel Spacing="4">
                           <TextBlock Text="{Binding DisplayName}" FontSize="12" FontWeight="SemiBold"
                                      TextTrimming="CharacterEllipsis" />
                           <TextBlock Text="{Binding ContextLine}" FontSize="10" Foreground="#91A0B4"
                                      TextTrimming="CharacterEllipsis" />
+                          <StackPanel Orientation="Horizontal" Spacing="7"
+                                      IsVisible="{Binding IsOperationInProgress}">
+                            <ProgressBar Width="42" Height="4" IsIndeterminate="True"
+                                         Foreground="#38A9ED" Background="#283650"
+                                         AutomationProperties.Name="Assignment action progress" />
+                            <TextBlock Text="{Binding OperationStatus}" FontSize="9"
+                                       Foreground="#8DD5FF" AutomationProperties.LiveSetting="Polite" />
+                          </StackPanel>
                         </StackPanel>
                         <Border Grid.Column="1" Background="{Binding StatusBackground}" CornerRadius="10"
                                 Padding="8,4" HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -215,13 +397,29 @@
                   </DataTemplate>
                 </ListBox.ItemTemplate>
               </ListBox>
+              <Border Grid.Row="1" x:Name="EmptyAssignmentsPanel" IsVisible="False"
+                      Background="#11182B" AutomationProperties.Name="Assignment list empty state"
+                      AutomationProperties.AutomationId="AssignmentEmptyState">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420"
+                            Spacing="10" Margin="24">
+                  <TextBlock x:Name="EmptyAssignmentsTitle" Text="No assignments yet"
+                             FontSize="20" FontWeight="SemiBold" TextAlignment="Center"
+                             TextWrapping="Wrap" />
+                  <TextBlock x:Name="EmptyAssignmentsMessage" FontSize="13" Foreground="#91A0B4"
+                             TextAlignment="Center" TextWrapping="Wrap" />
+                  <Button x:Name="EmptyAssignmentsActionButton" Classes="PrimaryAction" Content="Refresh all" TabIndex="100"
+                          Click="OnEmptyAssignmentsActionClick" HorizontalAlignment="Center"
+                          AutomationProperties.Name="Empty state action"
+                          AutomationProperties.AutomationId="AssignmentEmptyStateAction" />
+                </StackPanel>
+              </Border>
             </Grid>
           </Border>
         </Grid>
       </Grid>
 
-      <Border Grid.Column="2" Background="#0F1627" BorderBrush="#252E48" BorderThickness="1,0,0,0"
-              Padding="17,19">
+      <Border Grid.Column="2" x:Name="InspectorPanel" Background="#0F1627"
+              BorderBrush="#252E48" BorderThickness="1,0,0,0" Padding="17,19">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
           <StackPanel Spacing="14">
             <StackPanel Spacing="4">
@@ -258,23 +456,39 @@
             </Border>
 
             <StackPanel Spacing="6">
-              <TextBlock Text="ACTIVATION DURATION" FontSize="9" Foreground="#8291A6" />
-              <TextBox x:Name="DurationBox" Watermark="Suggested from your workday, e.g. PT2H" />
+              <TextBlock x:Name="DurationLabel" Text="ACTIVATION DURATION" FontSize="9"
+                         Foreground="#8291A6" />
+              <TextBox x:Name="DurationBox" Watermark="Suggested from your workday, e.g. PT2H"
+                       AutomationProperties.Name="Activation duration"
+                       AutomationProperties.AutomationId="ActivationDuration"
+                       AutomationProperties.LabeledBy="{Binding #DurationLabel}"
+                       AutomationProperties.HelpText="Enter an ISO 8601 duration, for example PT2H." />
               <TextBlock x:Name="DurationHint" Text="Policy limit and working-hour default apply."
                          FontSize="10" Foreground="#8291A6" TextWrapping="Wrap" />
             </StackPanel>
             <StackPanel Spacing="6">
-              <TextBlock Text="JUSTIFICATION" FontSize="9" Foreground="#8291A6" />
+              <TextBlock x:Name="JustificationLabel" Text="JUSTIFICATION" FontSize="9"
+                         Foreground="#8291A6" />
               <TextBox x:Name="JustificationBox" Watermark="Why do you need this access?"
-                       AcceptsReturn="True" MinHeight="62" TextWrapping="Wrap" />
+                       AcceptsReturn="True" MinHeight="62" TextWrapping="Wrap"
+                       AutomationProperties.Name="Justification"
+                       AutomationProperties.AutomationId="ActivationJustification"
+                       AutomationProperties.LabeledBy="{Binding #JustificationLabel}"
+                       AutomationProperties.HelpText="Explain why this privileged access is needed." />
             </StackPanel>
-            <Button x:Name="ActivateButton" Content="↑   Activate assignment" Click="OnActivateClick"
-                    Background="#0093E5" Foreground="#071426" BorderBrush="#0093E5"
-                    FontWeight="SemiBold" HorizontalContentAlignment="Center" IsEnabled="False" />
-            <Button x:Name="DeactivateButton" Content="↓   Deactivate assignment" Click="OnDeactivateClick"
-                    HorizontalContentAlignment="Center" IsEnabled="False" />
+            <Button x:Name="ActivateButton" Classes="PrimaryAction" Click="OnActivateClick"
+                    HorizontalContentAlignment="Center" IsEnabled="False"
+                    AutomationProperties.AutomationId="ActivateAssignmentButton">
+              <TextBlock Text="↑   Activate assignment" VerticalAlignment="Center" />
+            </Button>
+            <Button x:Name="DeactivateButton" Click="OnDeactivateClick"
+                    HorizontalContentAlignment="Center" IsEnabled="False"
+                    AutomationProperties.AutomationId="DeactivateAssignmentButton">
+              <TextBlock Text="↓   Deactivate assignment" VerticalAlignment="Center" />
+            </Button>
             <Button x:Name="FavoriteButton" Content="☆   Add to favorites" Click="OnFavoriteClick"
-                    HorizontalContentAlignment="Center" IsEnabled="False" />
+                    HorizontalContentAlignment="Center" IsEnabled="False"
+                    AutomationProperties.AutomationId="ToggleFavoriteButton" />
             <Border Background="#141B2D" BorderBrush="#303A57" BorderThickness="1" CornerRadius="10"
                     Padding="11" Margin="0,5,0,0">
               <StackPanel Spacing="5">
@@ -289,10 +503,85 @@
       </Border>
     </Grid>
 
-    <Border Grid.Row="2" Background="#11182B" BorderBrush="#252E48" BorderThickness="0,1,0,0"
+    <Border Grid.Row="3" x:Name="ErrorBanner" IsVisible="False" Background="#2B2020"
+            BorderBrush="#70403A" BorderThickness="0,1,0,0" Padding="18,10"
+            AutomationProperties.Name="Application error" AutomationProperties.AutomationId="ErrorBanner"
+            AutomationProperties.LiveSetting="Assertive">
+      <Grid ColumnDefinitions="Auto,*,Auto">
+        <TextBlock Text="!" Foreground="#FFB86B" FontSize="16" FontWeight="Bold"
+                   VerticalAlignment="Center" Margin="0,0,10,0"
+                   AutomationProperties.Name="Warning" />
+        <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center" Margin="0,0,12,0">
+          <TextBlock Text="Action needed" FontSize="10" FontWeight="SemiBold" Foreground="#FFB86B" />
+          <TextBlock x:Name="ErrorBannerText" FontSize="11" Foreground="#EDF1FA"
+                     TextWrapping="Wrap" AutomationProperties.Name="Error details"
+                     AutomationProperties.AutomationId="ErrorBannerText" />
+        </StackPanel>
+        <Button Grid.Column="2" x:Name="DismissErrorButton" Content="Dismiss"
+                Click="OnDismissErrorBannerClick" VerticalAlignment="Center"
+                AutomationProperties.Name="Dismiss error message"
+                AutomationProperties.AutomationId="DismissErrorButton" />
+      </Grid>
+    </Border>
+
+    <Border Grid.Row="4" Background="#11182B" BorderBrush="#252E48" BorderThickness="0,1,0,0"
             Padding="18,9">
       <TextBlock x:Name="FooterText" Text="Ready" FontSize="10" Foreground="#91A0B4"
-                 TextTrimming="CharacterEllipsis" />
+                 TextTrimming="CharacterEllipsis" AutomationProperties.Name="Application status"
+                 AutomationProperties.AutomationId="ApplicationStatus"
+                 AutomationProperties.LiveSetting="Polite" />
     </Border>
+    </Grid>
+
+    <Grid x:Name="SettingsOverlay" IsVisible="False" Background="#B8000000" Margin="16">
+      <Border MaxWidth="860" MaxHeight="780" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+              Background="#0B1020" BorderBrush="#343E5C" BorderThickness="1" CornerRadius="12">
+        <local:SettingsView x:Name="SettingsEditor" />
+      </Border>
+    </Grid>
+
+    <Grid x:Name="ConfirmationOverlay" IsVisible="False" Background="#B8000000" Margin="16"
+          AutomationProperties.Name="Assignment action confirmation"
+          AutomationProperties.AutomationId="AssignmentConfirmationDialog">
+      <Border MaxWidth="520" HorizontalAlignment="Center" VerticalAlignment="Center"
+              Background="#0B1020" BorderBrush="#343E5C" BorderThickness="1"
+              CornerRadius="12" Padding="24">
+        <StackPanel Spacing="16">
+          <StackPanel Spacing="7">
+            <TextBlock x:Name="ConfirmationTitle" FontSize="21" FontWeight="SemiBold" />
+            <TextBlock x:Name="ConfirmationDetails" FontSize="12" Foreground="#BAC5D4"
+                       TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+            <Button x:Name="ConfirmationCancelButton" Content="Cancel"
+                    Click="OnConfirmationCancelClick"
+                    AutomationProperties.Name="Cancel assignment action" />
+            <Button x:Name="ConfirmationConfirmButton" Classes="PrimaryAction" Content="Confirm"
+                    Click="OnConfirmationConfirmClick"
+                    AutomationProperties.Name="Confirm assignment action" />
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Grid>
+
+    <Grid x:Name="ClosePromptOverlay" IsVisible="False" Background="#B8000000" Margin="16">
+      <Border MaxWidth="500" HorizontalAlignment="Center" VerticalAlignment="Center"
+              Background="#0B1020" BorderBrush="#343E5C" BorderThickness="1"
+              CornerRadius="12" Padding="24">
+        <StackPanel Spacing="16">
+          <StackPanel Spacing="6">
+            <TextBlock Text="Close PIM Toolbox?" FontSize="21" FontWeight="SemiBold" />
+            <TextBlock x:Name="ClosePromptMessage" FontSize="12" Foreground="#BAC5D4"
+                       TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+            <Button x:Name="CloseToTrayButton" Content="Minimize to tray"
+                    Click="OnMinimizeCloseChoiceClick" />
+            <Button x:Name="CloseExitButton" Classes="PrimaryAction" Content="Exit application"
+                    Click="OnExitCloseChoiceClick" />
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Grid>
   </Grid>
 </Window>

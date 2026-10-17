@@ -1,9 +1,11 @@
 .agents
 .claude
+.windsurf
 .vscode
 skills-lock.json
 **/bin/
 **/obj/
+# Build and publish outputs, including generated desktop executables.
 **/artifacts/
 .vs/
 *.user

@@ -1,11 +1,137 @@
 {
   "version": 1,
   "skills": {
+    "avalonia-accessibility-and-validation": {
+      "source": "wieslawsoltes/development-plugin-for-avalonia",
+      "sourceType": "github",
+      "skillPath": "skills/avalonia-accessibility-and-validation/SKILL.md",
+      "computedHash": "8ea42cc717ee36cffe78962bb08225ca3735579865ba0adf3a29fdc0d57420d7"
+    },
+    "avalonia-bindings-and-xaml": {
+      "source": "wieslawsoltes/development-plugin-for-avalonia",
+      "sourceType": "github",
+      "skillPath": "skills/avalonia-bindings-and-xaml/SKILL.md",
+      "computedHash": "1de2a0dfabe5873d5b00bb5080a89befbdb0dd1737b94dc99f7009d3d27c3d36"
+    },
+    "avalonia-bootstrap-and-lifetime": {
+      "source": "wieslawsoltes/development-plugin-for-avalonia",
+      "sourceType": "github",
+      "skillPath": "skills/avalonia-bootstrap-and-lifetime/SKILL.md",
+      "computedHash": "b65f2bc931f3ce8ce093282f9f7d5bdd2e5e408c921234b69eb377c8cdfc2b1d"
+    },
+    "avalonia-controls-and-windowing": {
+      "source": "wieslawsoltes/development-plugin-for-avalonia",
+      "sourceType": "github",
+      "skillPath": "skills/avalonia-controls-and-windowing/SKILL.md",
+      "computedHash": "b64042e7c544d8a1d1576aaec5004cebc61c403f058aeac003ff2a957567aee6"
+    },
+    "avalonia-design-systems": {
+      "source": "wieslawsoltes/development-plugin-for-avalonia",
+      "sourceType": "github",
+      "skillPath": "skills/avalonia-design-systems/SKILL.md",
+      "computedHash": "8915ab5009915b64ace888ac7ea259e4dfcac052130ef64225a8930b395119d2"
+    },
+    "avalonia-fluent-design": {
+      "source": "wieslawsoltes/development-plugin-for-avalonia",
+      "sourceType": "github",
+      "skillPath": "skills/avalonia-fluent-design/SKILL.md",
+      "computedHash": "8c6e9fda197c5ec6808fca1d28b5953e039fb01fd962ce8578b2f04c0d05bb25"
+    },
+    "avalonia-input-and-commands": {
+      "source": "wieslawsoltes/development-plugin-for-avalonia",
+      "sourceType": "github",
+      "skillPath": "skills/avalonia-input-and-commands/SKILL.md",
+      "computedHash": "86d0e69059967f3fe740de1ee30672b39a27edad89fd82c9840c8c4ef0e9bad7"
+    },
+    "avalonia-layout-and-virtualization": {
+      "source": "wieslawsoltes/development-plugin-for-avalonia",
+      "sourceType": "github",
+      "skillPath": "skills/avalonia-layout-and-virtualization/SKILL.md",
+      "computedHash": "369b4b31f49929f82250bd6f1100c5130d7108dbb29c2017942b373c6305931c"
+    },
+    "avalonia-platform-services": {
+      "source": "wieslawsoltes/development-plugin-for-avalonia",
+      "sourceType": "github",
+      "skillPath": "skills/avalonia-platform-services/SKILL.md",
+      "computedHash": "37a193ce2369414077b9f124749bd78163792c50dacebc04a306db7db508bda3"
+    },
+    "avalonia-styling-and-resources": {
+      "source": "wieslawsoltes/development-plugin-for-avalonia",
+      "sourceType": "github",
+      "skillPath": "skills/avalonia-styling-and-resources/SKILL.md",
+      "computedHash": "a3fe72abb86533ecb528372e0373ac449a407b3cd00d4ee5526564498805b84a"
+    },
+    "avalonia-testing-diagnostics-and-performance": {
+      "source": "wieslawsoltes/development-plugin-for-avalonia",
+      "sourceType": "github",
+      "skillPath": "skills/avalonia-testing-diagnostics-and-performance/SKILL.md",
+      "computedHash": "590b2d12a0159cc2df44c499985814a158bf2fcd6ce478878c8d9db5a06dc18d"
+    },
+    "avalonia-threading-and-dispatcher": {
+      "source": "wieslawsoltes/development-plugin-for-avalonia",
+      "sourceType": "github",
+      "skillPath": "skills/avalonia-threading-and-dispatcher/SKILL.md",
+      "computedHash": "405ac659d348882619222cb9857894a417ccbe5a206bca05c91c523deaa63d70"
+    },
+    "avalonia-views-and-templating": {
+      "source": "wieslawsoltes/development-plugin-for-avalonia",
+      "sourceType": "github",
+      "skillPath": "skills/avalonia-views-and-templating/SKILL.md",
+      "computedHash": "f5c42d17ed8a2a1d7bda22eeae1cb86da6183c711e9beeebcd1dcf4b8b55b698"
+    },
+    "code-testing-agent": {
+      "source": "dotnet/skills",
+      "sourceType": "github",
+      "skillPath": "plugins/dotnet-test/skills/code-testing-agent/SKILL.md",
+      "computedHash": "fa4afc77714d3cab7dd76feb68944010563018643d654be8e112b167a0b1ad7f"
+    },
+    "csharp-refactoring": {
+      "source": "dotnet/skills",
+      "sourceType": "github",
+      "skillPath": "plugins/dotnet/skills/csharp-refactoring/SKILL.md",
+      "computedHash": "73f7132c66ddb8d26572c402eae7c50d893ee299017920847b39b782fbc94b56"
+    },
+    "development-plugin-for-avalonia": {
+      "source": "wieslawsoltes/development-plugin-for-avalonia",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "03eeae8080b16021f74937c2edaa4a2326d789983ef6d7833cc0ab128c76fce9"
+    },
+    "entra-app-registration": {
+      "source": "microsoft/azure-skills",
+      "sourceType": "github",
+      "skillPath": "skills/entra-app-registration/SKILL.md",
+      "computedHash": "40dd32c8a38e47b4a67e4d7e36232065be94ce4f6cf2d818fe46d6a6b3830b23"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
       "skillPath": "skills/find-skills/SKILL.md",
       "computedHash": "b146008599c31057cef1c145774cea5d5afb30e8f43fa802e47a4b461419aaaf"
+    },
+    "msgraph-sdk": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/msgraph-sdk/SKILL.md",
+      "computedHash": "211c1bde0b1db81d2a6c9f14b7e40b6bd7f9a6718cf36439aa28e08ce84036fe"
+    },
+    "run-tests": {
+      "source": "dotnet/skills",
+      "sourceType": "github",
+      "skillPath": "plugins/dotnet-test/skills/run-tests/SKILL.md",
+      "computedHash": "be6532c323794d90ec9de19b43ddd18d81bed0cedec22571862e8f3de0dc9aaa"
+    },
+    "test-anti-patterns": {
+      "source": "dotnet/skills",
+      "sourceType": "github",
+      "skillPath": "plugins/dotnet-test/skills/test-anti-patterns/SKILL.md",
+      "computedHash": "50b403f12fc8b7f9ec152600dc5e570b51b41540191cc1642d21726eeea3f14d"
+    },
+    "test-gap-analysis": {
+      "source": "dotnet/skills",
+      "sourceType": "github",
+      "skillPath": "plugins/dotnet-test/skills/test-gap-analysis/SKILL.md",
+      "computedHash": "ae9b2165ea508b9f93241bb4d6300f29a15745e3f0ef290cc8b9a13303559f3f"
     }
   }
 }

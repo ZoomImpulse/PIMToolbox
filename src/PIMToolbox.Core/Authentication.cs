@@ -146,6 +146,9 @@ public sealed class TenantAuthenticationService
             throw new ArgumentException("EdgeUserDataDirectory must be an explicit absolute path.", nameof(tenant));
         if (hasProfile && string.IsNullOrWhiteSpace(tenant.EdgeProfileDirectory))
             throw new ArgumentException("EdgeProfileDirectory cannot be empty.", nameof(tenant));
+        if (hasProfile && (tenant.EdgeProfileDirectory is "." or ".." ||
+            tenant.EdgeProfileDirectory.Contains('/') || tenant.EdgeProfileDirectory.Contains('\\')))
+            throw new ArgumentException("EdgeProfileDirectory must be a profile name, not a path.", nameof(tenant));
     }
 }
 
